@@ -1,0 +1,65 @@
+CASE
+	WHEN
+		CONTAINS([List],'Carte Lavorabili')                           THEN 'Backlog'
+	WHEN
+		IS_NULL([List])	                                              THEN 'Backlog'
+	WHEN
+		CONTAINS([List],'iteration') and NOT(CONTAINS([List],'done')) THEN 'Iteration'
+	WHEN
+		CONTAINS([Labels],'Bloccata')                                 THEN 'Stall'
+	WHEN
+		CONTAINS([List],'InProgress')                                 THEN 'InProgress'
+	WHEN
+		CONTAINS([List],'TR in progress')                             THEN 'InProgress'  
+	WHEN
+		CONTAINS([List],'TR feedback')                                THEN 'waiting TR'          
+	WHEN
+		CONTAINS([List],'Bloccate')                                   THEN 'Stall'              
+	WHEN
+		CONTAINS([List],'review')                                     THEN 'InProgress'
+	WHEN
+		CONTAINS([List],'qa')                                    	  THEN 'Testing'
+	WHEN
+		CONTAINS([List],'done')                                       THEN 'Done'
+ELSE
+	'non previsto:' + [List]
+
+
+
+------- 
+
+AVG(
+	CASE
+	WHEN
+		CONTAINS([List],'Carte Lavorabili')                           THEN 0 //Backlog'
+	WHEN
+		IS_NULL([List])	                                              THEN 0 //Backlog'
+	WHEN
+		CONTAINS([List],'iteration') and NOT(CONTAINS([List],'done')) THEN 1 //Iteration'
+	WHEN
+		CONTAINS([Labels],'Bloccata')                                 THEN 3 //Stall'
+	WHEN
+		CONTAINS([List],'InProgress')                                 THEN 2 //'InProgress'
+	WHEN
+		CONTAINS([List],'TR in progress')                             THEN 2 //'InProgress'  
+	WHEN
+		CONTAINS([List],'TR feedback')                                THEN 4 //'waiting TR'          
+	WHEN
+		CONTAINS([List],'Bloccate')                                   THEN 3 //'Stall'              
+	WHEN
+		CONTAINS([List],'review')                                     THEN 2 //'InProgress'
+	WHEN
+		CONTAINS([List],'qa')                                    	  THEN 5 //'Testing'
+	WHEN
+		CONTAINS([List],'done')                                       THEN 6 //'Done'
+ELSE
+	-1
+
+
+
+)
+
+
+Tempo Medio nello stato
+
+AVG([Time in list (days)])
